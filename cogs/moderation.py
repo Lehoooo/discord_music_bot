@@ -1,3 +1,4 @@
+# Written By Leho | leho.dev | github.com/lehoooo
 import discord
 from discord.ext import commands
 import json

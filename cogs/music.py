@@ -128,7 +128,7 @@ class Music(commands.Cog):
             # await ctx.send(str(results['name']) + " - " + str(results['artists'][0]['name']))
 
             results = await player.node.get_tracks("ytsearch:" + str(results['name']) + " " + str(results['artists'][0]['name']))
-            print(str(results))
+            # print(str(results))
             # embed.add_field(name="Song", value=str(results['artists'][0]['name']))
 
 
@@ -174,7 +174,7 @@ class Music(commands.Cog):
 
         elif "https://open.spotify.com/playlist/" in query:
             results = sp.playlist(playlist_id=str(query))
-            print(results['tracks'])
+            # print(results['tracks'])
             embed = discord.Embed()
             totalsongs = 0
             for idx, track in enumerate(results['tracks']['items']):

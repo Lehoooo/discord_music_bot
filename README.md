@@ -9,3 +9,10 @@ A simple Discord bot to play music into a voice channel
 
 # Usage
 ```python3 main.py```
+
+# How To Get Spotify Tokens
+* Go To ```https://developer.spotify.com/dashboard/applications```
+* Create a new app
+* Copy the Client ID and Client Secret
+* Put into ```config.json```
+* Done 

@@ -1,0 +1,9 @@
+{
+  "token": "TOKEN GOES HERE",
+  "invite": "BOT INVITE GOES HERE",
+  "spotify_client_id": "SPOTIFY CLIENT ID GOES HERE",
+  "spotify_client_secret": "SPOTIFY CLIENT SECRET GOES HERE",
+  "lavalink_ip": "LAVALINK SERVER IP GOES HERE",
+  "lavalink_port": "LAVALINK PORT GOES HERE",
+  "lavalink_password": "LAVALINK PASSWORD GOES HERE"
+}

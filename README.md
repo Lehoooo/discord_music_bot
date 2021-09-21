@@ -1,5 +1,5 @@
 # discord_music_bot
-A simple Discord bot to play music into a voice channel
+A simple Discord bot to play music into a voice channel with support for Spotify & Youtube. 
 
 # Features
 * Can play Spotify playlists, albums, and songs

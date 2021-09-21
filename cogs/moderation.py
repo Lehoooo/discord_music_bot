@@ -16,12 +16,6 @@ class moderation(commands.Cog):
     def __init__(self, bot):
         self.bot = bot
 
-
-    @commands.command()
-    async def say(self, ctx, *, messagecontent):
-        await ctx.message.delete()
-        await ctx.send(f'{messagecontent}')
-
     @commands.command()
     async def invite(self, ctx):
         await ctx.send(config['invite'])

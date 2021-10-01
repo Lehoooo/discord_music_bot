@@ -77,7 +77,7 @@ class Music(commands.Cog):
 
         # These are commands that require the bot to join a voicechannel (i.e. initiating playback).
         # Commands such as volume/skip etc don't require the bot to be in a voicechannel so don't need listing here.
-        should_connect = ctx.command.name in ('play',)
+        should_connect = ctx.command.name in ('play','sus')
 
         if not ctx.author.voice or not ctx.author.voice.channel:
             # Our cog_command_error handler catches this and sends it to the voicechannel.
@@ -173,6 +173,7 @@ class Music(commands.Cog):
 
 
         elif "https://open.spotify.com/playlist/" in query:
+            await ctx.send("Adding songs to playlist. Please wait!")
             results = sp.playlist(playlist_id=str(query))
             # print(results['tracks'])
             embed = discord.Embed()
@@ -296,8 +297,8 @@ class Music(commands.Cog):
         player = self.bot.lavalink.player_manager.get(ctx.guild.id)
         # await ctx.send(f"Now Playing: " + str(player.current.title))
 
-        a = round((player.position / 60000), 2)
-        b = round((player.current.duration / 60000), 2)
+        a = str(round((player.position / 60000), 2)).replace(".", ":")
+        b = str(round((player.current.duration / 60000), 2)).replace(".", ":")
         # await ctx.send(f"{a} / {b}")
         embed = discord.Embed()
         embed.title = 'Now Playing'
@@ -305,6 +306,35 @@ class Music(commands.Cog):
         embed.description = "Song: ```" + str(player.current.title) + "```\nDuration: ```" + str(a) + " / " + str(b) + "```"
         embed.set_footer(text="""VibeBot | Made With 💖 By Leho""")
         await ctx.send(embed=embed)
+
+    @commands.command()
+    async def shuffle(self, ctx):
+        player = self.bot.lavalink.player_manager.get(ctx.guild.id)
+
+        try:
+            if player.shuffle == True:
+                player.shuffle = False
+                await ctx.send("Shuffle Disabled!")
+            elif player.shuffle == False:
+                player.shuffle = True
+                await ctx.send("Shuffle Enabled!")
+        except Exception as e:
+            await ctx.send("Shuffle Failed! Error: " + str(e))
+
+    @commands.command()
+    async def sus(self, ctx):
+        player = self.bot.lavalink.player_manager.get(ctx.guild.id)
+
+        results = await player.node.get_tracks("ytsearch:dream sus remix")
+        track = results['tracks'][0]
+
+        track = lavalink.models.AudioTrack(track, ctx.author.id, recommended=True)
+        player.add(requester=ctx.author.id, track=track)
+
+        if not player.is_playing:
+            await player.play()
+        await ctx.send("😉")
+
 
     @commands.command(aliases=['s'])
     async def skip(self, ctx):

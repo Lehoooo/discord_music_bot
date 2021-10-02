@@ -11,6 +11,7 @@ from spotipy import SpotifyClientCredentials
 
 url_rx = re.compile(r'https?://(?:www\.)?.+')
 
+
 try:
     configopen = open("config.json", "r")
     config = json.load(configopen)
@@ -26,6 +27,7 @@ sp = spotipy.Spotify(auth_manager=SpotifyClientCredentials(client_id=str(config[
 
 
 class Music(commands.Cog):
+
     def __init__(self, bot):
         self.bot = bot
 

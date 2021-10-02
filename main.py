@@ -7,6 +7,7 @@ from datetime import datetime
 import json
 
 bot = commands.Bot(command_prefix='>')
+
 botusername = str(bot.user.name)
 try:
     configopen = open("config.json", "r")

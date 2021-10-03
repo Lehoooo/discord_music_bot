@@ -10,9 +10,9 @@ bot = commands.Bot(command_prefix='>')
 
 botusername = str(bot.user.name)
 try:
-    configopen = open("config.json", "r")
-    config = json.load(configopen)
-    configopen.close()
+    with open("config.json", "r") as configfile:
+        config = json.load(configfile)
+
 except Exception as e:
     print("Error Loading Config " + str(e))
     exit()

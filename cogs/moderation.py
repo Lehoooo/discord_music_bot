@@ -2,14 +2,15 @@
 import discord
 from discord.ext import commands
 import json
+import sys
 
 try:
-    configopen = open("config.json", "r")
-    config = json.load(configopen)
-    configopen.close()
+    with open("config.json", "r") as configopen:
+        config = json.load(configopen)
+
 except Exception as e:
     print("Error Loading Config " + str(e))
-    exit()
+    sys.exit(9)
 
 
 class moderation(commands.Cog):

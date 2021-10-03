@@ -13,9 +13,9 @@ url_rx = re.compile(r'https?://(?:www\.)?.+')
 
 
 try:
-    configopen = open("config.json", "r")
-    config = json.load(configopen)
-    configopen.close()
+    with open("config.json", "r") as configopen:
+        config = json.load(configopen)
+
 except Exception as e:
     print("Error Loading Config " + str(e))
     exit()

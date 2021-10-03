@@ -269,7 +269,7 @@ class Music(commands.Cog):
             print(str(player.queue))
 
             items_per_page = 10
-            pages = math.ceil(len(player.queue)) / items_per_page
+            pages = math.ceil(len(player.queue) / items_per_page)
 
             start = (page - 1) * items_per_page
             end = start + items_per_page

@@ -2,7 +2,7 @@
 import discord
 from discord.ext import commands
 from discord.ext import tasks
-import os
+import sys
 from datetime import datetime
 import json
 
@@ -15,7 +15,7 @@ try:
 
 except Exception as e:
     print("Error Loading Config " + str(e))
-    exit()
+    sys.exit(9)
 
 
 TOKEN = str(config['token'])

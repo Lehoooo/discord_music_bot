@@ -2,6 +2,7 @@
 import json
 import math
 import re
+import sys
 
 import discord
 import lavalink
@@ -18,7 +19,7 @@ try:
 
 except Exception as e:
     print("Error Loading Config " + str(e))
-    exit()
+    sys.exit(9)
 
 
 sp = spotipy.Spotify(auth_manager=SpotifyClientCredentials(client_id=str(config['spotify_client_id']),

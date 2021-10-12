@@ -8,7 +8,6 @@ import json
 
 bot = commands.Bot(command_prefix='>')
 
-botusername = str(bot.user.name)
 try:
     with open("config.json", "r") as configfile:
         config = json.load(configfile)

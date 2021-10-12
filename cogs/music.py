@@ -155,6 +155,7 @@ class Music(commands.Cog):
 
 
         elif "https://open.spotify.com/album/" in query:
+            await ctx.send("Adding songs from album. Please wait!")
             results = sp.album_tracks(album_id=str(query))
             embed = discord.Embed()
             totalsongs = 0
@@ -176,7 +177,7 @@ class Music(commands.Cog):
 
 
         elif "https://open.spotify.com/playlist/" in query:
-            await ctx.send("Adding songs to playlist. Please wait!")
+            await ctx.send("Adding songs from playlist. Please wait!")
             results = sp.playlist(playlist_id=str(query))
             # print(results['tracks'])
             embed = discord.Embed()
@@ -256,9 +257,46 @@ class Music(commands.Cog):
             if not player.is_playing:
                 await player.play()
 
-    @commands.command(aliases=['q']) # kinda broken rn - fix
-    async def queue(self, ctx, page: int = 1):
+    # @commands.command(aliases=['q']) # kinda broken rn - fix
+    # async def queue(self, ctx, page: int = 1):
+    #
+    #
+    #     player = self.bot.lavalink.player_manager.get(ctx.guild.id)
+    #
+    #     if len(player.queue) == 0:
+    #         await ctx.send(f"Now Playing: " + str(player.current.title))
+    #
+    #     else:
+    #
+    #         print(str(player.queue))
+    #
+    #         items_per_page = 10
+    #         pages = math.ceil(len(player.queue) / items_per_page)
+    #
+    #         start = (page - 1) * items_per_page
+    #         end = start + items_per_page
+    #         embed = discord.Embed()
+    #         embed.title = "Queue"
+    #         embed.set_author(icon_url="https://cdn.discordapp.com/emojis/713547225883738143.gif", name="VibeBot")
+    #
+    #
+    #         queue_list = ''
+    #         queue_list += f"`{1}.` [**{player.current.title}**]({player.current.uri})\n"
+    #         for index, track in enumerate(player.queue[start:end], start=start):
+    #             index +=1
+    #             queue_list += f"`{index + 1}.` [**{track.title}**]({track.uri})\n"
+    #             embed.add_field(name=f"**{len(player.queue) + 1} tracks**", value=f"{queue_list}")
+    #             # embed = discord.Embed(description=f"**{len(player.queue) + 1} tracks**\n{queue_list}")
+    #             # embed.add_field(name="a", value="Currently Playing: " + str(player.current.title))
+    #             embed.set_footer(text=f"Viewing page {page}/{pages}")
+    #         embed.set_footer(text="""VibeBot | Made With 💖 By Leho""")
+    #
+    #         await ctx.send(embed=embed)
+    #
+    #         # embed.description = "Queued: ```" + str(totalsongs) + " Songs```"
 
+    @commands.command(aliases=['q'])
+    async def queue(self, ctx):
 
         player = self.bot.lavalink.player_manager.get(ctx.guild.id)
 
@@ -266,34 +304,17 @@ class Music(commands.Cog):
             await ctx.send(f"Now Playing: " + str(player.current.title))
 
         else:
-
-            print(str(player.queue))
-
-            items_per_page = 10
-            pages = math.ceil(len(player.queue) / items_per_page)
-
-            start = (page - 1) * items_per_page
-            end = start + items_per_page
-            embed = discord.Embed()
-            embed.title = "Queue"
+            embed = discord.Embed(title="Queue")
             embed.set_author(icon_url="https://cdn.discordapp.com/emojis/713547225883738143.gif", name="VibeBot")
-
-
-            queue_list = ''
-            queue_list += f"`{1}.` [**{player.current.title}**]({player.current.uri})\n"
-            for index, track in enumerate(player.queue[start:end], start=start):
-                index +=1
-                queue_list += f"`{index + 1}.` [**{track.title}**]({track.uri})\n"
-                embed.add_field(name=f"**{len(player.queue) + 1} tracks**", value=f"{queue_list}")
-                # embed = discord.Embed(description=f"**{len(player.queue) + 1} tracks**\n{queue_list}")
-                # embed.add_field(name="a", value="Currently Playing: " + str(player.current.title))
-                embed.set_footer(text=f"Viewing page {page}/{pages}")
+            tracklist = ''
+            for index, track in enumerate(player.queue):
+                tracklist += str("`" + str(index + 1) + "` **" + track['title'] + "**" + "\n")
+                # embed.add_field(value=str(str(index) + track['title']))
+            embed.add_field(name="Now Playing", value=str("**" + player.current.title + "**"), inline=False)
+            embed.add_field(name="Tracks", value=str(tracklist), inline=False)
             embed.set_footer(text="""VibeBot | Made With 💖 By Leho""")
-
             await ctx.send(embed=embed)
-
-            # embed.description = "Queued: ```" + str(totalsongs) + " Songs```"
-
+                # await ctx.send(track['title'])
 
     @commands.command(aliases=['np'])
     async def playing(self, ctx):

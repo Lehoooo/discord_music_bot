@@ -398,7 +398,7 @@ class Music(commands.Cog):
             await ctx.send("Resume Failed! Error: " + str(e))
 
 
-    @commands.command(aliases=['dc'])
+    @commands.command(aliases=['dc', 'leave'])
     async def disconnect(self, ctx):
         """ Disconnects the player from the voice channel and clears its queue. """
         player = self.bot.lavalink.player_manager.get(ctx.guild.id)

@@ -2,3 +2,4 @@ discord.py
 lavalink
 spotipy
 requests
+youtube_title_parse

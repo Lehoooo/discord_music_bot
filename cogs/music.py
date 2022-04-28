@@ -3,12 +3,14 @@ import json
 import math
 import re
 import sys
-
+import requests
 import discord
 import lavalink
 import spotipy
 from discord.ext import commands
 from spotipy import SpotifyClientCredentials
+import youtube_title_parse
+from youtube_title_parse import get_artist_title
 
 url_rx = re.compile(r'https?://(?:www\.)?.+')
 
@@ -334,18 +336,26 @@ class Music(commands.Cog):
     @commands.command(aliases=['l'])
     async def loop(self, ctx):
         player = self.bot.lavalink.player_manager.get(ctx.guild.id)
-        if player.is_playing:
-            if not player.current.is_stream:
-                if not player.current.is_looping:
-                    player.set_repeat(True)
-                    await ctx.send("Looping Enabled 🔁")
-                else:
-                    player.set_repeat(False)
-                    await ctx.send("Looping Disabled 🔂")
-            else:
-                await ctx.send("Cannot loop a stream.")
-        else:
-            await ctx.send("Nothing playing.")
+        if player.is_connected:
+            player.set_repeat(not player.repeat)
+            await ctx.send("Looping Enabled :white_check_mark:" if player.repeat else "Looping Disabled ❌")
+
+    @commands.command()
+    async def lyrics(self, ctx):
+        player = self.bot.lavalink.player_manager.get(ctx.guild.id)
+        if player.is_connected:
+            try: #todo remove prints
+                a = get_artist_title(str(player.current.title))
+                lyricsjson = requests.get("https://api.lyrics.ovh/v1/" + a[0] + "/" + a[1]).json()
+                try:
+                    await ctx.send("Here are the lyrics for " + a[1] + " By " + a[0] + ":\n\n" + lyricsjson['lyrics'])
+                except KeyError:
+                    await ctx.send("No Lyrics Found :sob:")
+
+
+            except Exception as e:
+                await ctx.send("Unable To Parse :sob: Error: " + str(e))
+
 
 
     @commands.command()

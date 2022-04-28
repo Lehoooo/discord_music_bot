@@ -331,6 +331,23 @@ class Music(commands.Cog):
         embed.set_footer(text="""VibeBot | Made With 💖 By Leho""")
         await ctx.send(embed=embed)
 
+    @commands.command(aliases=['l'])
+    async def loop(self, ctx):
+        player = self.bot.lavalink.player_manager.get(ctx.guild.id)
+        if player.is_playing:
+            if not player.current.is_stream:
+                if not player.current.is_looping:
+                    player.set_repeat(True)
+                    await ctx.send("Looping Enabled 🔁")
+                else:
+                    player.set_repeat(False)
+                    await ctx.send("Looping Disabled 🔂")
+            else:
+                await ctx.send("Cannot loop a stream.")
+        else:
+            await ctx.send("Nothing playing.")
+
+
     @commands.command()
     async def shuffle(self, ctx):
         player = self.bot.lavalink.player_manager.get(ctx.guild.id)
